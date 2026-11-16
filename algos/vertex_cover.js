@@ -149,8 +149,9 @@
         }, svg);
         el('text', {
           x, y, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': 17 * kn, 'font-weight': 700,
-          style: inStar && inC ? 'fill:var(--on-fill);stroke:var(--ink);stroke-width:3px;paint-order:stroke'
-            : `fill:${inStar || inC ? 'var(--on-fill)' : 'var(--ink)'}`,
+          // mauve/striped: white label with a black halo (readable on both stripe colors); C* gets its own contrast color
+          style: inC ? 'fill:#fff;stroke:#000;stroke-width:3.5px;stroke-linejoin:round;paint-order:stroke'
+            : inStar ? 'fill:var(--cstar-text)' : 'fill:var(--ink)',
         }, svg, label(i));
       }
 

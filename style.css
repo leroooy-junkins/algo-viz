@@ -1,14 +1,14 @@
 :root {
   --bg: #dde2e9; --panel: #eceff4; --line: #bfc7d3; --ink: #1f2933; --muted: #5b6672;
   --blue: #2b6cb0; --orange: #c05621; --red: #e53e3e; --gray: #a5b0be;
-  --node: #eceff4; --on-fill: #fff; --cstar: #111; --mauve: #9b5c8f; --btn: #2b6cb0; --btn-text: #fff;
+  --node: #eceff4; --on-fill: #fff; --cstar: #000; --cstar-text: #fff; --mauve: #9b5c8f; --btn: #2b6cb0; --btn-text: #fff;
   --radius: 12px; --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 6px 18px rgba(16, 24, 40, .05);
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0d1013; --panel: #151a20; --line: #272e37; --ink: #e6eaef; --muted: #9aa5b2;
     --blue: #63b3ed; --orange: #f6ad55; --red: #fc8181; --gray: #38414d;
-    --node: #151a20; --on-fill: #0b0e11; --cstar: #e6eaef; --mauve: #c99bc0; --btn: #63b3ed; --btn-text: #11151a;
+    --node: #151a20; --on-fill: #0b0e11; --cstar: #e6eaef; --cstar-text: #000; --mauve: #a8679b; --btn: #63b3ed; --btn-text: #11151a;
     --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 6px 18px rgba(0, 0, 0, .25);
   }
 }
@@ -66,9 +66,11 @@ h3 { font-size: 13px; margin: 0 0 8px; color: var(--muted); font-weight: 600; te
 .arr .v { flex: none; width: 1.9em; line-height: 24px; text-align: center; font-weight: 700; border: 1.5px solid var(--ink); border-radius: 999px; }
 .arr .v.blue { background: var(--blue); border-color: var(--blue); color: var(--on-fill); }
 .arr .v.orange { background: var(--orange); border-color: var(--orange); color: var(--on-fill); }
-.arr .v.cstar { background: var(--cstar); color: var(--on-fill); }
-.arr .v.mauve { background: var(--mauve); color: var(--on-fill); }
-.arr .v.both { background: repeating-linear-gradient(45deg, var(--cstar) 0 4px, var(--mauve) 4px 8px); color: var(--on-fill); text-shadow: 0 0 2px var(--ink), 0 0 2px var(--ink); }
+.arr .v.cstar { background: var(--cstar); }
+.arr .v.mauve { background: var(--mauve); }
+.arr .v.both { background: repeating-linear-gradient(45deg, var(--cstar) 0 4px, var(--mauve) 4px 8px); }
+.arr .v.cstar { color: var(--cstar-text); }
+.arr .v.mauve, .arr .v.both { color: #fff; text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 1px #000; }
 .arr .to { flex: none; line-height: 27px; color: var(--muted); }
 .arr .cells { display: flex; flex-wrap: wrap; gap: 4px; padding-top: 1px; }
 .adj .cell { display: inline-block; min-width: 2.2em; line-height: 22px; padding: 0 6px; text-align: center; border: 1.5px solid var(--ink); border-radius: 6px; }
