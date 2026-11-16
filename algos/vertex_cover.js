@@ -186,14 +186,7 @@
       meter.append(fill);
       head.append(node('strong', '', `${covered} of ${edges.length} edges covered`), meter);
 
-      const parts = [head, VIZ.adjacency({ n, edges, label, vertex, entry })];
-      if (picked) {
-        const key = node('p', 'note key'), item = node('span', '');
-        item.append(node('span', 'cell picked', 'x'), ' picked');
-        key.append(item);
-        parts.push(key);
-      }
-      box.replaceChildren(...parts);
+      box.replaceChildren(head, VIZ.adjacency({ n, edges, label, vertex, entry }));
     }
 
     // One-line state for the collapsed data card.
