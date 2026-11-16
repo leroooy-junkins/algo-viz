@@ -78,7 +78,7 @@
     ], { C: none }, [0]);
 
     add('Why at most twice the smallest', [
-      `Let C* be a minimum cover (blue rings, ${k} ${k === 1 ? 'vertex' : 'vertices'}). Brute force finds it here to score the run; the algorithm never sees it.`,
+      `Let C* be a minimum cover (solid black, ${k} ${k === 1 ? 'vertex' : 'vertices'}). Brute force finds it here to score the run; the algorithm never sees it.`,
       'C* covers every edge, so each uncovered edge has an endpoint in C*. A flip is lucky if it picks that endpoint, which happens with probability at least 0.5.',
       `Every flip adds a vertex not yet in C, so each lucky flip finds a new vertex of C*. That happens at most ${k} times. Since each flip is lucky with probability at least 0.5, C has at most 2 × ${k} = ${2 * k} vertices on average.`,
     ], { C: none, star: true }, []);
@@ -96,7 +96,7 @@
       const fresh = edges.filter(e => covers(f.C, e) && !covers(prev, e)).length;
       add(`Round ${i + 1}: ${hit ? 'lucky' : 'unlucky'} flip`, [
         `The coin picks ${label(f.added)}, so C = {${[...f.C].sort((a, b) => a - b).map(label).join(', ')}}.`,
-        `${label(f.added)} covers ${plural(fresh, 'more edge')}, now dashed.`,
+        `${label(f.added)} covers ${plural(fresh, 'more edge')}, now dimmed.`,
         hit ? `Lucky: ${label(f.added)} is in C*. ${hits} of ${k} found.`
             : `Unlucky: ${label(f.added)} is not in C*. ${misses} extra so far.`,
       ], { C: f.C, prev, star: true, added: f.added }, [3, 4]);
@@ -126,34 +126,39 @@
       ];
       const isPicked = ([u, v]) => picked && picked[0] === u && picked[1] === v;
 
+      // stripes for nodes in both C* and C
+      const pat = el('pattern', { id: 'vc-both', width: 8, height: 8, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, el('defs', {}, svg));
+      el('rect', { width: 4, height: 8, fill: 'var(--cstar)' }, pat);
+      el('rect', { x: 4, width: 4, height: 8, fill: 'var(--mauve)' }, pat);
+
       for (const e of edges) {
         const [a, b] = [at(e[0]), at(e[1])];
         const look = isPicked(e) ? { stroke: 'var(--red)', 'stroke-width': 6, 'stroke-linecap': 'round' }
-          : (C.has(e[0]) || C.has(e[1])) ? { stroke: 'var(--gray)', 'stroke-width': 2, 'stroke-dasharray': '4 3' }
+          : (C.has(e[0]) || C.has(e[1])) ? { stroke: 'var(--ink)', 'stroke-width': 2, opacity: .2 }
           : { stroke: 'var(--ink)', 'stroke-width': 2 };
         el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], ...look }, svg);
       }
       for (let i = 0; i < n; i++) {
         const [x, y] = at(i);
-        const inStar = showStar && star.has(i);
-        const fill = C.has(i) ? (star.has(i) ? 'var(--blue)' : 'var(--orange)') : 'var(--node)';
+        const inStar = showStar && star.has(i), inC = C.has(i);
+        const fill = inStar && inC ? 'url(#vc-both)' : inStar ? 'var(--cstar)' : inC ? 'var(--mauve)' : 'var(--node)';
         if (picked && picked.includes(i)) el('circle', { cx: x, cy: y, r: 31 * kn, fill: 'none', stroke: 'var(--red)', 'stroke-width': 3 }, svg);
         if (i === added) el('circle', { cx: x, cy: y, r: 32 * kn, fill: 'none', stroke: fill, 'stroke-width': 4, opacity: .5 }, svg);
         el('circle', {
-          cx: x, cy: y, r: 22 * kn, fill,
-          stroke: inStar ? 'var(--blue)' : 'var(--ink)', 'stroke-width': inStar ? 5 : 1.5,
+          cx: x, cy: y, r: 22 * kn, fill, stroke: 'var(--ink)', 'stroke-width': 1.5,
         }, svg);
         el('text', {
           x, y, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': 17 * kn, 'font-weight': 700,
-          style: `fill:${C.has(i) ? 'var(--on-fill)' : 'var(--ink)'}`,
+          style: inStar && inC ? 'fill:var(--on-fill);stroke:var(--ink);stroke-width:3px;paint-order:stroke'
+            : `fill:${inStar || inC ? 'var(--on-fill)' : 'var(--ink)'}`,
         }, svg, label(i));
       }
 
-      // legend: only the colors of nodes in C (rings and dashed edges are explained in the step text)
+      // legend: node fills (uncolored nodes are in neither cover)
       const items = [
-        ['Nodes in C:', 'head'],
-        ['also in C*', 'var(--blue)'],
-        ['not in C*', 'var(--orange)'],
+        ...(showStar ? [['min vertex cover C*', 'var(--cstar)']] : []),
+        ['random vertex cover C', 'var(--mauve)'],
+        ...(showStar ? [['both', 'url(#vc-both)']] : []),
       ];
       let x = 24, y = 412 + 12 * k;                               // legend wraps onto more rows when scaled up
       for (const [text, color] of items) {
@@ -161,7 +166,7 @@
         const pad = head ? 0 : 24;
         const wid = (pad + text.length * (head ? 7.6 : 7.2) + 18) * k;
         if (x > 24 && x + wid - 18 * k > W - 12) { x = 24; y += 26 * k; }
-        if (!head) el('circle', { cx: x + 8 * k, cy: y, r: 7 * k, fill: color }, svg);
+        if (!head) el('circle', { cx: x + 8 * k, cy: y, r: 7 * k, fill: color, stroke: 'var(--ink)', 'stroke-width': 1 }, svg);
         el('text', { x: x + pad * k, y, 'dominant-baseline': 'central', 'font-size': 13 * k, ...(head ? { 'font-weight': 700 } : {}) }, svg, text);
         x += wid;
       }
@@ -169,14 +174,15 @@
     }
 
     // One adjacency list; each neighbor chip shows its edge's state, matching the drawing:
-    // uncovered (solid), covered (dashed, faded), just covered by the latest pick (blue), picked (red).
+    // uncovered (solid), covered (dimmed), picked (red). Vertex badges use the node fills.
     function data(box, idx) {
-      const { C, prev, picked } = steps[idx].view;
+      const { C, picked, star: showStar } = steps[idx].view;
       const isPicked = (u, v) => picked && ((picked[0] === u && picked[1] === v) || (picked[0] === v && picked[1] === u));
-      const vertex = i => C.has(i) ? (star.has(i) ? 'blue' : 'orange') : '';
-      const entry = (u, v) => isPicked(u, v) ? 'picked'
-        : !covers(C, [u, v]) ? ''
-        : prev && !covers(prev, [u, v]) ? 'new' : 'covered';
+      const vertex = i => {
+        const inStar = showStar && star.has(i), inC = C.has(i);
+        return inStar && inC ? 'both' : inStar ? 'cstar' : inC ? 'mauve' : '';
+      };
+      const entry = (u, v) => isPicked(u, v) ? 'picked' : covers(C, [u, v]) ? 'covered' : '';
       const covered = edges.filter(e => covers(C, e)).length;
 
       const node = (tag, cls, text) => Object.assign(document.createElement(tag), { className: cls, textContent: text ?? '' });

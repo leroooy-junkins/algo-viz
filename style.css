@@ -1,14 +1,14 @@
 :root {
   --bg: #dde2e9; --panel: #eceff4; --line: #bfc7d3; --ink: #1f2933; --muted: #5b6672;
   --blue: #2b6cb0; --orange: #c05621; --red: #e53e3e; --gray: #a5b0be;
-  --node: #eceff4; --on-fill: #fff; --btn: #2b6cb0; --btn-text: #fff;
+  --node: #eceff4; --on-fill: #fff; --cstar: #111; --mauve: #9b5c8f; --btn: #2b6cb0; --btn-text: #fff;
   --radius: 12px; --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 6px 18px rgba(16, 24, 40, .05);
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0d1013; --panel: #151a20; --line: #272e37; --ink: #e6eaef; --muted: #9aa5b2;
     --blue: #63b3ed; --orange: #f6ad55; --red: #fc8181; --gray: #38414d;
-    --node: #151a20; --on-fill: #0b0e11; --btn: #63b3ed; --btn-text: #11151a;
+    --node: #151a20; --on-fill: #0b0e11; --cstar: #e6eaef; --mauve: #c99bc0; --btn: #63b3ed; --btn-text: #11151a;
     --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 6px 18px rgba(0, 0, 0, .25);
   }
 }
@@ -66,10 +66,13 @@ h3 { font-size: 13px; margin: 0 0 8px; color: var(--muted); font-weight: 600; te
 .arr .v { flex: none; width: 1.9em; line-height: 24px; text-align: center; font-weight: 700; border: 1.5px solid var(--ink); border-radius: 999px; }
 .arr .v.blue { background: var(--blue); border-color: var(--blue); color: var(--on-fill); }
 .arr .v.orange { background: var(--orange); border-color: var(--orange); color: var(--on-fill); }
+.arr .v.cstar { background: var(--cstar); color: var(--on-fill); }
+.arr .v.mauve { background: var(--mauve); color: var(--on-fill); }
+.arr .v.both { background: repeating-linear-gradient(45deg, var(--cstar) 0 4px, var(--mauve) 4px 8px); color: var(--on-fill); text-shadow: 0 0 2px var(--ink), 0 0 2px var(--ink); }
 .arr .to { flex: none; line-height: 27px; color: var(--muted); }
 .arr .cells { display: flex; flex-wrap: wrap; gap: 4px; padding-top: 1px; }
 .adj .cell { display: inline-block; min-width: 2.2em; line-height: 22px; padding: 0 6px; text-align: center; border: 1.5px solid var(--ink); border-radius: 6px; }
-.adj .cell.covered { color: var(--muted); border: 1.5px dashed color-mix(in srgb, var(--muted) 65%, transparent); }
+.adj .cell.covered { opacity: .3; }
 .adj .cell.empty { color: var(--muted); border-color: transparent; font-style: italic; }
 .adj .cell.picked { color: var(--red); font-weight: 700; border: 2.5px solid var(--red); line-height: 20px; }
 .adj .cell.new { background: color-mix(in srgb, var(--blue) 20%, transparent); border-color: var(--blue); border-style: solid; color: var(--ink); font-weight: 700; }
