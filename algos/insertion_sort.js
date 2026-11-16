@@ -70,8 +70,8 @@
 
     add('The problem', [
       'Insertion sort takes each element in turn as the key, shifts every larger element before it one slot right, and drops the key into the gap.',
-      'Question: how many shifts does it make on a uniformly random array of n elements, on average?',
-      'Each shift fixes exactly one inversion, so shifts = inversions. Each pair is inverted with probability ½, so the average is half of all pairs.',
+      'Question: how many shifts does it make on a uniformly random permutation of n elements, on average?',
+      'Each shift fixes exactly one inversion, so shifts = inversions. Each pair is inverted with probability 0.5, so the average is half of all pairs.',
     ], { ...base }, [], 'intro0');
 
     add('Inversions', [
@@ -87,9 +87,9 @@
     ], { ...base, arcs: allArcs, all: true }, [3, 4], 'intro2');
 
     add('The average is half of all pairs', [
-      'In a random permutation, either order of two values is equally likely, so each pair is an inversion with probability ½.',
-      `With ${n} elements there are ${total} pairs, so the average number of inversions, and therefore shifts, is ${total} × ½ = ${fmt(average)}. This is linearity of expectation: the expected value of a sum is the sum of the expected values, with no independence required.`,
-      `The worst case is a reversed array: every pair is inverted, ${total} shifts, twice the average. Both are marked on the bar.` +
+      'In a uniformly random permutation, either order of two values is equally likely, so each pair is an inversion with probability 0.5.',
+      `With ${n} elements there are ${total} pairs, so the average number of inversions, and therefore shifts, is ${total} × 0.5 = ${fmt(average)}. This is linearity of expectation: the expected value of a sum is the sum of the expected values, with no independence required.`,
+      `The best case is a sorted array: no inversions, 0 shifts. The worst case is a reversed array: every pair is inverted, ${total} shifts, twice the average. Both are marked on the bar.` +
         (params.input === 'reversed' ? ' This array is reversed, so this run is the worst case.' : ''),
     ], { ...base, arcs: allArcs, all: true, bounds: true }, [], 'intro3');
 
@@ -167,6 +167,11 @@
         ? `Reversed input is the worst case: every pair is inverted, ${total} shifts.`
         : `The average is ${fmt(average)}, half the worst case of ${total}. Other inputs vary around it.`,
     ], { ...base, a: ins[ins.length - 1].after, sorted: n, count: shifts, bounds: true }, [], 'result');
+
+    add('Running time', [
+      'The running time is proportional to n plus the number of shifts.',
+      'The average and worst cases both grow with the square of n, written Θ(n²). A sorted array needs no shifts, so it takes only linear time, Θ(n).',
+    ], { ...base, a: ins[ins.length - 1].after, sorted: n, count: shifts, bounds: true }, [], 'time');
 
     // The drawing fits the stage's rendered width (1 unit ≈ 1 CSS px), so text stays readable on phones.
     function draw(svg, idx) {

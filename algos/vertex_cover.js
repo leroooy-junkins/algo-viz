@@ -71,15 +71,16 @@
     const plural = (m, word) => `${m} ${word}${m === 1 ? '' : 's'}`;
 
     add('The problem', [
-      'A vertex cover is a set of vertices that includes at least one endpoint of every edge.',
-      'Finding a minimum cover is NP-hard. This randomized algorithm returns a cover whose expected size is at most twice the minimum.',
+      'Given a graph G = (V, E), a vertex cover is a subset C ⊆ V such that every edge (u, v) ∈ E has u ∈ C or v ∈ C. In other words, C is a subset of the vertices, and every edge in G has at least one end (vertex u or vertex v) in C.',
+      'Finding a minimum cover is NP-hard (no polynomial-time algorithm is known, and finding one would prove P = NP). This randomized algorithm returns a cover whose expected size is at most twice the minimum.',
       'Start with C empty. While an edge is uncovered, pick one uniformly at random, flip a coin, and add one of its endpoints to C.',
+      'Why a coin? Always taking the first endpoint can be forced into a bad cover: on a star whose edges all list the leaf first, it picks every leaf instead of the center. A random choice means no fixed graph can reliably trick it.',
     ], { C: none }, [0]);
 
     add('Why at most twice the smallest', [
       `Let C* be a minimum cover (blue rings, ${k} ${k === 1 ? 'vertex' : 'vertices'}). Brute force finds it here to score the run; the algorithm never sees it.`,
-      'C* covers every edge, so each uncovered edge has an endpoint in C*, and the coin picks it with probability at least ½. Call that a lucky flip.',
-      `Every flip adds a vertex not yet in C, so each lucky flip finds a new vertex of C*. That happens at most ${k} times. Since flips are lucky at least half the time, C has at most 2 × ${k} = ${2 * k} vertices on average.`,
+      'C* covers every edge, so each uncovered edge has an endpoint in C*. A flip is lucky if it picks that endpoint, which happens with probability at least 0.5.',
+      `Every flip adds a vertex not yet in C, so each lucky flip finds a new vertex of C*. That happens at most ${k} times. Since each flip is lucky with probability at least 0.5, C has at most 2 × ${k} = ${2 * k} vertices on average.`,
     ], { C: none, star: true }, []);
 
     let hits = 0, misses = 0;
