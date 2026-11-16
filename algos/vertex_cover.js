@@ -71,23 +71,23 @@
     const plural = (m, word) => `${m} ${word}${m === 1 ? '' : 's'}`;
 
     add('The problem', [
-      'A graph is a set of vertices (circles) joined by edges (lines). A vertex cover is a set of vertices that touches every edge: each edge has at least one end in the set.',
-      'Goal: a cover with as few vertices as possible. No fast method is known for finding the smallest one, so we settle for a quick answer that is, on average, at most twice the smallest.',
-      'Approach: start with an empty set C. While some edge is uncovered, pick one at random, flip a coin, and add one of its two ends to C.',
+      'A vertex cover is a set of vertices that includes at least one endpoint of every edge.',
+      'Finding a minimum cover is NP-hard. This randomized algorithm returns a cover whose expected size is at most twice the minimum.',
+      'Start with C empty. While an edge is uncovered, pick one uniformly at random, flip a coin, and add one of its endpoints to C.',
     ], { C: none }, [0]);
 
     add('Why at most twice the smallest', [
-      `Let C* be a smallest cover (blue rings: ${k} ${k === 1 ? 'vertex' : 'vertices'}). It is found here by brute force only to score the run; the algorithm never sees it.`,
-      'C* touches every edge, so every uncovered edge has at least one end in C*. The coin therefore picks a vertex of C* with probability at least ½. Call that a lucky flip.',
-      `Each flip adds a vertex that is not in C yet (neither end of an uncovered edge is in C), so a lucky flip finds a new vertex of C*. That can happen at most ${k} times. If at least half the flips are lucky on average, there are at most 2 × ${k} = ${2 * k} flips on average, so C has at most ${2 * k} vertices on average.`,
+      `Let C* be a minimum cover (blue rings, ${k} ${k === 1 ? 'vertex' : 'vertices'}). Brute force finds it here to score the run; the algorithm never sees it.`,
+      'C* covers every edge, so each uncovered edge has an endpoint in C*, and the coin picks it with probability at least ½. Call that a lucky flip.',
+      `Every flip adds a vertex not yet in C, so each lucky flip finds a new vertex of C*. That happens at most ${k} times. Since flips are lucky at least half the time, C has at most 2 × ${k} = ${2 * k} vertices on average.`,
     ], { C: none, star: true }, []);
 
     let hits = 0, misses = 0;
     flips.forEach((f, i) => {
       const prev = i ? flips[i - 1].C : none;
       add(`Round ${i + 1}: pick an edge`, [
-        `${f.open === edges.length ? `All ${edges.length} edges are` : `${f.open} of ${edges.length} edges ${f.open === 1 ? 'is' : 'are'}`} still uncovered (solid lines). One is picked at random (red).`,
-        'At least one of its ends is in C*. Next, a coin flip picks which end joins C.',
+        `${f.open === edges.length ? `All ${edges.length} edges are` : `${f.open} of ${edges.length} edges ${f.open === 1 ? 'is' : 'are'}`} still uncovered. One is picked at random (red).`,
+        'At least one endpoint is in C*. A coin flip chooses which one joins C.',
       ], { C: prev, star: true, picked: f.edge }, [1, 2]);
 
       const hit = star.has(f.added);
@@ -95,16 +95,16 @@
       const fresh = edges.filter(e => covers(f.C, e) && !covers(prev, e)).length;
       add(`Round ${i + 1}: ${hit ? 'lucky' : 'unlucky'} flip`, [
         `The coin picks ${label(f.added)}, so C = {${[...f.C].sort((a, b) => a - b).map(label).join(', ')}}.`,
-        `${label(f.added)} covers ${plural(fresh, 'more edge')} (now dashed).`,
-        hit ? `Lucky: ${label(f.added)} is in C*. ${hits} of the ${k} vertices of C* found.`
-            : `Unlucky: ${label(f.added)} is not in C*, so it is one more vertex than the smallest cover needs (${misses} extra so far).`,
+        `${label(f.added)} covers ${plural(fresh, 'more edge')}, now dashed.`,
+        hit ? `Lucky: ${label(f.added)} is in C*. ${hits} of ${k} found.`
+            : `Unlucky: ${label(f.added)} is not in C*. ${misses} extra so far.`,
       ], { C: f.C, prev, star: true, added: f.added }, [3, 4]);
     });
 
     add('Result', [
-      'Every edge is covered, so the loop ends and C is returned.',
-      `|C| = ${total}; the smallest cover has |C*| = ${k}. This run: ${hits} lucky, ${misses} unlucky.`,
-      `On average |C| ≤ 2|C*| = ${2 * k}. That limit is on the average: one unlucky run can go above it, but C is never smaller than C*. New graph tries another.`,
+      'Every edge is covered, so the loop ends.',
+      `C has ${total} vertices, the minimum is ${k}. ${hits} lucky flips, ${misses} unlucky.`,
+      `The bound holds on average, at most ${2 * k} here. A single run can exceed it, but never goes below ${k}.`,
     ], { C: flips[total - 1].C, star: true }, [1, 5]);
 
     // Scale graph coordinates into the drawing area.

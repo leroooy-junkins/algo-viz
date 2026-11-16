@@ -69,28 +69,28 @@
     for (let p = 0; p < n; p++) for (let q = p + 1; q < n; q++) if (input[p] > input[q]) allArcs.push([p, q]);
 
     add('The problem', [
-      'Insertion sort puts an array in order by taking the elements one at a time, left to right. Each one (the key) is held aside while every larger element before it moves one slot right; then the key drops into the gap. Each one-slot move is a shift, and shifts are most of the work.',
-      'Question: on a randomly shuffled array of n elements, how many shifts does insertion sort make on average?',
-      'Approach: count the pairs of elements that are in the wrong order (inversions). Each shift fixes exactly one such pair, so shifts = inversions. In a random shuffle each pair is in the wrong order half the time, so the average is half of all pairs.',
+      'Insertion sort takes each element in turn as the key, shifts every larger element before it one slot right, and drops the key into the gap.',
+      'Question: how many shifts does it make on a uniformly random array of n elements, on average?',
+      'Each shift fixes exactly one inversion, so shifts = inversions. Each pair is inverted with probability ½, so the average is half of all pairs.',
     ], { ...base }, [], 'intro0');
 
     add('Inversions', [
-      'An inversion is a pair of elements in the wrong order: the larger one comes first. The two do not have to be next to each other.',
-      'Example: in 3 1 2 the inversions are (3, 1) and (3, 2); the pair (1, 2) is in order. A sorted array has no inversions. A reversed array has every pair inverted: n(n−1)/2 of them.',
-      `This array has ${plural(inv, 'inversion')} out of ${total} pairs. Each is drawn as an arc joining the two elements.`,
+      'An inversion is a pair of elements in the wrong order: the larger one comes first. The two need not be adjacent.',
+      'In 3 1 2 the inversions are (3, 1) and (3, 2); (1, 2) is in order. A sorted array has none, and a reversed array has every pair inverted.',
+      `This array has ${plural(inv, 'inversion')} out of ${total} pairs, drawn as arcs.`,
     ], { ...base, arcs: allArcs, all: true }, [], 'intro1');
 
     add('Each shift fixes one inversion', [
-      'A shift moves one larger element one slot right, past the key. That swaps the order of just those two elements, so it fixes exactly one inversion and leaves every other pair as it was.',
-      'When the sort ends the array is sorted, with no inversions left. So the total number of shifts equals the number of inversions in the starting array.',
-      'The grids in the data panel track this: the first marks every inverted pair in the input, the second the ones fixed so far. They match when the sort ends.',
+      'A shift moves one larger element past the key, reversing the order of that pair only. Every other pair is unchanged.',
+      'The sorted output has no inversions, so total shifts = inversions in the input.',
+      'The grids track this: the first marks every inverted pair in the input, the second the pairs fixed so far.',
     ], { ...base, arcs: allArcs, all: true }, [3, 4], 'intro2');
 
     add('The average is half of all pairs', [
-      'In a random shuffle, for any two values the smaller is just as likely to come first as the larger. So each pair is an inversion with probability ½.',
-      `There are n(n−1)/2 = ${total} pairs (n = ${n}). Averages add up across pairs (linearity of expectation, which holds even though the pairs are not independent), so the average number of inversions, and so of shifts, is ${total} × ½ = ${fmt(average)} = n(n−1)/4.`,
-      `The worst case is a reversed array: every pair is an inversion, so n(n−1)/2 = ${total} shifts, twice the average. Both are marked on the bar.` +
-        (params.input === 'reversed' ? ' This array is reversed, so this run hits the worst case, not the average.' : ''),
+      'In a random permutation, either order of two values is equally likely, so each pair is an inversion with probability ½.',
+      `With ${n} elements there are ${total} pairs, so the average number of inversions, and therefore shifts, is ${total} × ½ = ${fmt(average)}. This is linearity of expectation: the expected value of a sum is the sum of the expected values, with no independence required.`,
+      `The worst case is a reversed array: every pair is inverted, ${total} shifts, twice the average. Both are marked on the bar.` +
+        (params.input === 'reversed' ? ' This array is reversed, so this run is the worst case.' : ''),
     ], { ...base, arcs: allArcs, all: true, bounds: true }, [], 'intro3');
 
     let shifts = 0;
@@ -103,12 +103,12 @@
 
       const prefix = s.before.slice(0, s.i).join(' ');
       add(`i = ${i1}: pick up ${key}`, [
-        `The key is A[${i1}] = ${key}. It is held aside above the array, leaving position ${i1} free (dashed). ` +
-          (s.i === 1 ? `The element before it, ${prefix}, is sorted on its own; j starts there, at position 1.`
-                     : `The elements before it, ${prefix}, are already sorted; j starts at the last of them, position ${i1 - 1}.`),
-        m ? `${andList(s.larger)} ${m === 1 ? 'is' : 'are'} larger than ${key}. ${m === 1 ? 'That pair is an inversion' : 'Each of those pairs is an inversion'} (orange ${m === 1 ? 'arc' : 'arcs'}), so inserting ${key} takes ${plural(m, 'shift')}.`
-          : `Nothing before it is larger than ${key}, so ${key} is in no inversions yet and inserting it takes 0 shifts.`,
-        ...(m ? [`${m === 1 ? 'The pair is' : 'The pairs are'} boxed in red in the first grid.`] : []),
+        `Key = A[${i1}] = ${key}, held above the array with position ${i1} free. ` +
+          (s.i === 1 ? `The prefix ${prefix} is sorted; j starts at position 1.`
+                     : `The prefix ${prefix} is sorted; j starts at position ${i1 - 1}.`),
+        m ? `${andList(s.larger)} ${m === 1 ? 'is' : 'are'} larger than ${key}, forming ${m === 1 ? 'an inversion' : 'inversions'} (orange), so ${key} takes ${plural(m, 'shift')}.`
+          : `Nothing before it is larger, so ${key} takes 0 shifts.`,
+        ...(m ? [`Boxed in red in the first grid.`] : []),
       ], {
         ...common, a: s.before, count: shifts, gap: s.i, keyVal: key, j: s.i - 1,
         reg: { i: i1, j: i1 - 1, key }, toKey: largerPos, ends: largerPos,
@@ -124,10 +124,10 @@
         if (!perShift) continue;
         const left = largerPos.filter(p => p <= j);
         add(`i = ${i1}: shift ${w} right`, [
-          `A[${jo + 1}] = ${w} is larger than the key ${key}, so ${w} shifts one slot right, into position ${jo + 2}, and j moves left to ${jo}.`,
-          `Position ${jo + 1} (dashed) still holds an old copy of ${w}; the next shift or the key will overwrite it.`,
-          `This shift fixes the inversion (${w}, ${key}), now marked in the second grid. ` +
-            (left.length ? `${plural(left.length, 'larger element')} still to pass.` : 'No larger elements left to pass.'),
+          `A[${jo + 1}] = ${w} > ${key}, so ${w} moves to position ${jo + 2} and j drops to ${jo}.`,
+          `Position ${jo + 1} still holds a stale copy of ${w}, to be overwritten.`,
+          `Fixes the inversion (${w}, ${key}), marked in the second grid. ` +
+            (left.length ? `${plural(left.length, 'larger element')} left to pass.` : 'No larger elements left.'),
         ], {
           ...common, a: mem.slice(), count: shifts, gap: jo, keyVal: key, j,
           reg: { i: i1, j: j + 1, key }, moved: moved.slice(), fresh: [[key, w]], toKey: left, ends: left,
@@ -136,24 +136,24 @@
 
       // The loop test that failed, then A[j+1] ← key.
       const stop = j < 0
-        ? `j = 0: there is nothing left to compare, so the loop stops. ${key} is smaller than everything before it.`
-        : `A[${j + 1}] = ${mem[j]} is smaller than the key ${key}, so the loop stops.`;
+        ? `j = 0, so the loop stops. ${key} is smaller than everything before it.`
+        : `A[${j + 1}] = ${mem[j]} ≤ ${key}, so the loop stops.`;
       mem[j + 1] = key;
       const view = {
         ...common, a: mem, sorted: s.i + 1, count: shifts, landed: j + 1, moved, j,
         reg: { i: i1, j: j + 1, key }, fresh: perShift ? [] : pairs,
       };
-      const tail = `Shifts so far: ${shifts} of the ${inv} inversions in this array. Positions 1–${i1} are now sorted.`;
+      const tail = `${shifts} of ${inv} shifts so far. Positions 1–${i1} are sorted.`;
       if (perShift) {
         add(`i = ${i1}: ${m ? 'place' : 'keep'} ${key}`, [
           stop,
-          `The key ${key} drops into the free slot, position ${j + 2} (A[j+1] ← key). ` + (m ? `It took ${plural(m, 'shift')}, one per inversion it was in.` : 'Nothing moved: 0 shifts.'),
+          `${key} goes to position ${j + 2} (A[j+1] ← key). ` + (m ? `${plural(m, 'shift')}, one per inversion.` : '0 shifts.'),
           tail,
         ], view, [3, 5], anchor);
       } else {
         add(`i = ${i1}: ${m ? 'insert' : 'keep'} ${key}`, [
-          m ? `${plural(m, 'larger element')} (orange) ${m === 1 ? 'shifts' : 'shift'} one slot right, and the key ${key} drops into position ${j + 2}. Each shift fixes one inversion; ${m === 1 ? 'it is' : 'they are'} now marked in the second grid.`
-            : `${key} stays at position ${j + 2}: the element to its left is already smaller, so the loop stops at once.`,
+          m ? `${plural(m, 'larger element')} (orange) shifted right and ${key} landed at position ${j + 2}. The fixed ${m === 1 ? 'inversion is' : 'inversions are'} marked in the second grid.`
+            : `${key} stays at position ${j + 2}; its left neighbor is already smaller.`,
           ...(m ? [stop] : []),
           tail,
         ], view, m ? [3, 4, 5] : [3, 5], anchor);
@@ -161,11 +161,11 @@
     });
 
     add('Result', [
-      'The array is sorted, so no inversions are left. Each one was fixed by exactly one shift, so the two grids match.',
-      `This run: ${plural(inv, 'shift')}, one per inversion.`,
+      'The array is sorted and the grids match: one shift per inversion.',
+      `This run: ${plural(inv, 'shift')}.`,
       params.input === 'reversed'
-        ? `Reversed array: every pair is an inversion, so this is the worst case, n(n−1)/2 = ${total}.`
-        : `On a random shuffle each pair is an inversion with probability ½, so the average is n(n−1)/4 = ${fmt(average)} shifts, half the worst case of ${total}. New input gives a different count with the same average.`,
+        ? `Reversed input is the worst case: every pair is inverted, ${total} shifts.`
+        : `The average is ${fmt(average)}, half the worst case of ${total}. Other inputs vary around it.`,
     ], { ...base, a: ins[ins.length - 1].after, sorted: n, count: shifts, bounds: true }, [], 'result');
 
     // The drawing fits the stage's rendered width (1 unit ≈ 1 CSS px), so text stays readable on phones.
@@ -296,7 +296,7 @@
       const picked = new Set(v.picked.map(([x, y]) => pk(x, y)));
       const fresh = new Set(v.fresh.map(([x, y]) => pk(x, y)));
       box.replaceChildren(
-        node('p', 'note', 'Each cell is a pair of values: row x, column y, with x < y (values, not positions). 1 means y comes before x in the input: an inversion.'),
+        node('p', 'note', 'Cell (x, y), x < y, is 1 if y precedes x in the input, an inversion. Indexed by value, not position.'),
         grid(`Inversions in the input: ${inv} of ${total} pairs`, (x, y) => [
           `${bad(x, y) ? 'one' : 'zero'}${picked.has(pk(x, y)) ? ' picked' : ''}`, bad(x, y) ? '1' : '0',
         ]),
