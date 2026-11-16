@@ -186,16 +186,14 @@
       meter.append(fill);
       head.append(node('strong', '', `${covered} of ${edges.length} edges covered`), meter);
 
-      const key = node('p', 'note key');
-      const sample = [['', 'uncovered'], ['covered', 'covered'], ...(prev ? [['new', 'just covered']] : []), ...(picked ? [['picked', 'picked']] : [])];
-      for (const [cls, text] of sample) {
-        const item = node('span', '');
-        item.append(node('span', `cell ${cls}`, 'x'), ` ${text}`);
+      const parts = [head, VIZ.adjacency({ n, edges, label, vertex, entry })];
+      if (picked) {
+        const key = node('p', 'note key'), item = node('span', '');
+        item.append(node('span', 'cell picked', 'x'), ' picked');
         key.append(item);
+        parts.push(key);
       }
-      key.append(node('span', 'hint', 'Each edge appears twice, once under each endpoint.'));
-
-      box.replaceChildren(head, VIZ.adjacency({ n, edges, label, vertex, entry }), key);
+      box.replaceChildren(...parts);
     }
 
     // One-line state for the collapsed data card.
