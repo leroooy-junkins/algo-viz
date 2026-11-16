@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" viewBox="0 0 240 240">
+<defs>
+<marker id="a" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L6 3L0 6z" fill="#6f93b8" stroke="none"/></marker>
+<marker id="b" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L6 3L0 6z" fill="#d99440" stroke="none"/></marker>
+</defs>
+<g fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" font-family="ui-monospace,Menlo,Consolas,monospace" opacity="0.15">
+<g>
+<rect x="10" y="16" width="30" height="14" rx="1.5" stroke="#6f93b8"/>
+<path d="M30 16L30 30" stroke="#6f93b8"/>
+<circle cx="35" cy="23" r="1.3" fill="#6f93b8" stroke="none"/>
+<path d="M35 23L52 23" stroke="#6f93b8" marker-end="url(#a)"/>
+<rect x="52" y="16" width="30" height="14" rx="1.5" stroke="#6f93b8"/>
+<path d="M72 16L72 30" stroke="#6f93b8"/>
+<circle cx="77" cy="23" r="1.3" fill="#6f93b8" stroke="none"/>
+<path d="M77 23L94 23" stroke="#6f93b8" marker-end="url(#a)"/>
+<rect x="94" y="16" width="30" height="14" rx="1.5" stroke="#6f93b8"/>
+<path d="M114 16L114 30" stroke="#6f93b8"/>
+<circle cx="119" cy="23" r="1.3" fill="#6f93b8" stroke="none"/>
+<path d="M124 23L185 17" stroke="#6f93b8" marker-end="url(#a)"/>
+<path d="M77 30C77 42 66 54 64 66" stroke="#d99440" marker-end="url(#b)" stroke-dasharray="2 2.5"/>
+<circle cx="64" cy="70" r="3" stroke="#d99440"/>
+<path d="M61 70L0 70" stroke="#d99440"/>
+<path d="M109 30L106 80" stroke="#6f93b8" stroke-dasharray="2 2.5"/>
+<path d="M73 16L73 0" stroke="#6f93b8"/>
+<path d="M73 211L73 240" stroke="#6f93b8"/>
+<text x="10" y="12" font-size="5.5" fill="#6f93b8" stroke="none">head</text>
+<path d="M192 21L166 37" stroke="#6f93b8"/>
+<path d="M192 21L216 37" stroke="#6f93b8"/>
+<path d="M166 47L154 65" stroke="#6f93b8"/>
+<path d="M166 47L178 65" stroke="#6f93b8"/>
+<path d="M216 47L202 65" stroke="#d99440"/>
+<path d="M216 47L216 69" stroke="#d99440"/>
+<path d="M216 47L230 65" stroke="#d99440"/>
+<circle cx="192" cy="16" r="5" stroke="#6f93b8"/>
+<circle cx="166" cy="42" r="5" stroke="#6f93b8"/>
+<circle cx="216" cy="42" r="5" stroke="#6f93b8"/>
+<circle cx="154" cy="70" r="5" stroke="#6f93b8"/>
+<circle cx="178" cy="70" r="5" stroke="#6f93b8"/>
+<circle cx="202" cy="70" r="5" stroke="#d99440"/>
+<circle cx="216" cy="74" r="5" stroke="#d99440"/>
+<circle cx="230" cy="70" r="5" stroke="#d99440"/>
+<path d="M235 70L240 70" stroke="#d99440"/>
+<path d="M154 75L148 90" stroke="#6f93b8" stroke-dasharray="2 2.5"/>
+<path d="M148 97L148 127" stroke="#d99440" marker-end="url(#b)" stroke-dasharray="2 2.5"/>
+<rect x="144" y="90" width="7" height="7" stroke="#6f93b8"/>
+<circle cx="192" cy="16" r="2" stroke="#6f93b8" fill="#6f93b8" fill-opacity=".5"/>
+<rect x="14" y="112" width="28" height="11" rx="1.5" stroke="#6f93b8"/>
+<rect x="14" y="123" width="28" height="11" rx="1.5" stroke="#6f93b8"/>
+<rect x="14" y="134" width="28" height="11" rx="1.5" stroke="#6f93b8"/>
+<rect x="14" y="145" width="28" height="11" rx="1.5" stroke="#6f93b8"/>
+<rect x="14" y="101" width="28" height="11" rx="1.5" stroke="#d99440"/>
+<path d="M8 106L11 106" stroke="#d99440" marker-end="url(#b)"/>
+<text x="8" y="98" font-size="5.5" fill="#d99440" stroke="none">top</text>
+<path d="M28 156L26 185" stroke="#6f93b8" marker-end="url(#a)" stroke-dasharray="2 2.5"/>
+<path d="M0 150L14 150" stroke="#6f93b8"/>
+<circle cx="84" cy="84" r="4" stroke="#6f93b8"/>
+<circle cx="106" cy="84" r="4" stroke="#6f93b8"/>
+<circle cx="128" cy="84" r="4" stroke="#6f93b8"/>
+<path d="M88 82.5L102 82.5" stroke="#6f93b8" marker-end="url(#a)"/>
+<path d="M102 85.5L88 85.5" stroke="#6f93b8" marker-end="url(#a)"/>
+<path d="M110 82.5L124 82.5" stroke="#6f93b8" marker-end="url(#a)"/>
+<path d="M124 85.5L110 85.5" stroke="#6f93b8" marker-end="url(#a)"/>
+<path d="M132 85L144 92" stroke="#6f93b8" stroke-dasharray="2 2.5"/>
+<path d="M80 86C66 92 54 98 43 104" stroke="#d99440" marker-end="url(#b)"/>
+<rect x="64" y="128" width="13" height="11" rx="1.5" stroke="#6f93b8"/>
+<text x="68" y="136" font-size="5.5" fill="#6f93b8" stroke="none">9</text>
+<rect x="77" y="128" width="13" height="11" rx="1.5" stroke="#6f93b8"/>
+<text x="81" y="136" font-size="5.5" fill="#6f93b8" stroke="none">7</text>
+<rect x="90" y="128" width="13" height="11" rx="1.5" stroke="#6f93b8"/>
+<text x="94" y="136" font-size="5.5" fill="#6f93b8" stroke="none">6</text>
+<rect x="103" y="128" width="13" height="11" rx="1.5" stroke="#6f93b8"/>
+<text x="107" y="136" font-size="5.5" fill="#6f93b8" stroke="none">3</text>
+<rect x="116" y="128" width="13" height="11" rx="1.5" stroke="#6f93b8"/>
+<rect x="129" y="128" width="13" height="11" rx="1.5" stroke="#6f93b8"/>
+<rect x="142" y="128" width="13" height="11" rx="1.5" stroke="#6f93b8"/>
+<rect x="155" y="128" width="13" height="11" rx="1.5" stroke="#6f93b8"/>
+<path d="M70.5 128A6.5 5.8500000000000005 0 0 1 83.5 128" stroke="#d99440"/>
+<path d="M70.5 128A13.0 11.700000000000001 0 0 1 96.5 128" stroke="#d99440"/>
+<path d="M83.5 128A13.0 11.700000000000001 0 0 1 109.5 128" stroke="#d99440"/>
+<path d="M83.5 128A32.5 29.25 0 0 1 148.5 128" stroke="#d99440" stroke-dasharray="2 2.5"/>
+<path d="M96.5 128A19.5 17.55 0 0 1 135.5 128" stroke="#d99440"/>
+<path d="M96.5 128A26.0 23.400000000000002 0 0 1 148.5 128" stroke="#d99440"/>
+<text x="64" y="150" font-size="5" fill="#6f93b8" stroke="none">0   1   2   3 ...</text>
+<path d="M162 127L181 119" stroke="#6f93b8" stroke-dasharray="2 2.5"/>
+<path d="M191 115L217 112" stroke="#6f93b8" marker-end="url(#a)"/>
+<path d="M222 117L231 141" stroke="#6f93b8"/>
+<path d="M227 147L201 151" stroke="#6f93b8" marker-end="url(#a)"/>
+<path d="M195 147L187 121" stroke="#6f93b8"/>
+<path d="M190 120L228 142" stroke="#6f93b8" stroke-dasharray="2 2.5"/>
+<path d="M222 107C214 94 232 94 226 107" stroke="#d99440" marker-end="url(#b)"/>
+<path d="M198 148C212 140 220 136 228 142" stroke="#d99440"/>
+<circle cx="186" cy="116" r="5" stroke="#6f93b8"/>
+<circle cx="222" cy="112" r="5" stroke="#6f93b8"/>
+<circle cx="232" cy="146" r="5" stroke="#6f93b8"/>
+<circle cx="196" cy="152" r="5" stroke="#6f93b8"/>
+<text x="205" y="126" font-size="5" fill="#6f93b8" stroke="none">w=?</text>
+<path d="M237 150L240 150" stroke="#6f93b8"/>
+<path d="M194 157L190 178" stroke="#d99440" marker-end="url(#b)"/>
+<rect x="10" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<text x="14" y="205" font-size="5.5" fill="#6f93b8" stroke="none">3</text>
+<path d="M17 208L17 211" stroke="#6f93b8"/>
+<rect x="24" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<path d="M31 208L31 211" stroke="#6f93b8"/>
+<rect x="38" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<path d="M45 208L45 211" stroke="#6f93b8"/>
+<rect x="52" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<text x="56" y="205" font-size="5.5" fill="#6f93b8" stroke="none">4</text>
+<path d="M59 208L59 211" stroke="#6f93b8"/>
+<rect x="66" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<path d="M73 208L73 211" stroke="#6f93b8"/>
+<rect x="80" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<text x="84" y="205" font-size="5.5" fill="#6f93b8" stroke="none">8</text>
+<path d="M87 208L87 211" stroke="#6f93b8"/>
+<rect x="94" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<text x="98" y="205" font-size="5.5" fill="#6f93b8" stroke="none">5</text>
+<path d="M101 208L101 211" stroke="#6f93b8"/>
+<rect x="108" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<path d="M115 208L115 211" stroke="#6f93b8"/>
+<rect x="122" y="196" width="14" height="12" rx="1.5" stroke="#6f93b8"/>
+<path d="M129 208L129 211" stroke="#6f93b8"/>
+<path d="M24 186L24 194" stroke="#d99440" marker-end="url(#b)"/>
+<text x="22" y="184" font-size="5.5" fill="#d99440" stroke="none">i</text>
+<path d="M80 186L80 194" stroke="#6f93b8" marker-end="url(#a)"/>
+<text x="78" y="184" font-size="5.5" fill="#6f93b8" stroke="none">j</text>
+<path d="M24 192C40 180 66 180 80 192" stroke="#6f93b8" stroke-dasharray="2 2.5"/>
+<text x="10" y="219" font-size="5" fill="#6f93b8" stroke="none">[0 .. n+1)</text>
+<rect x="158" y="176" width="16" height="14" rx="1.5" stroke="#6f93b8"/>
+<rect x="158" y="190" width="16" height="14" rx="1.5" stroke="#6f93b8"/>
+<rect x="158" y="204" width="16" height="14" rx="1.5" stroke="#6f93b8"/>
+<rect x="158" y="218" width="16" height="14" rx="1.5" stroke="#6f93b8"/>
+<path d="M174 183L182 183" stroke="#6f93b8" marker-end="url(#a)"/>
+<rect x="182" y="178" width="12" height="10" rx="1.5" stroke="#6f93b8"/>
+<path d="M194 183L202 183" stroke="#6f93b8" marker-end="url(#a)"/>
+<rect x="202" y="178" width="12" height="10" rx="1.5" stroke="#6f93b8"/>
+<path d="M214 183L220 183" stroke="#6f93b8"/>
+<circle cx="223" cy="183" r="3" stroke="#6f93b8"/>
+<path d="M220.8 185.2L225.2 180.8" stroke="#6f93b8"/>
+<path d="M158 190L174 176" stroke="#6f93b8" stroke-opacity=".7"/>
+<path d="M174 211L182 211" stroke="#6f93b8" marker-end="url(#a)"/>
+<rect x="182" y="206" width="12" height="10" rx="1.5" stroke="#6f93b8"/>
+<path d="M194 211L202 211" stroke="#6f93b8" marker-end="url(#a)"/>
+<rect x="202" y="206" width="12" height="10" rx="1.5" stroke="#6f93b8"/>
+<path d="M214 211L222 211" stroke="#6f93b8" marker-end="url(#a)"/>
+<rect x="222" y="206" width="12" height="10" rx="1.5" stroke="#6f93b8"/>
+<path d="M228 216C228 227 170 225 166 217" stroke="#d99440" marker-end="url(#b)"/>
+<path d="M174 225L182 225" stroke="#6f93b8" marker-end="url(#a)"/>
+<rect x="182" y="220" width="12" height="10" rx="1.5" stroke="#6f93b8"/>
+<path d="M194 225L240 225" stroke="#6f93b8" stroke-dasharray="2 2.5"/>
+<path d="M0 225L19 225" stroke="#6f93b8" stroke-dasharray="2 2.5"/>
+<circle cx="22" cy="225" r="3" stroke="#6f93b8"/>
+<text x="158" y="172" font-size="5" fill="#6f93b8" stroke="none">buckets</text>
+</g></g></svg>
