@@ -40,27 +40,38 @@
     // Create an SVG element: el('circle', {cx: 1, class: 'node'}, parent, 'optional text')
     el(tag, attrs = {}, parent, text) {
       const e = document.createElementNS(NS, tag);
-      for (const k in attrs) e.setAttribute(k, attrs[k]);
+      // WebKit (Safari, every iOS browser) does not reliably resolve CSS variables in SVG
+      // presentation attributes (stroke="var(--ink)"), which left graph edges unpainted. Any value
+      // using var() goes into the style attribute instead; an explicit style still wins.
+      let style = '';
+      for (const k in attrs) {
+        const v = String(attrs[k]);
+        if (k !== 'style' && v.includes('var(')) style += `${k}:${v};`;
+        else e.setAttribute(k, v);
+      }
+      if (style) e.setAttribute('style', style + (attrs.style || ''));
       if (text !== undefined) e.textContent = text;
       if (parent) parent.appendChild(e);
       return e;
     },
-    // One adjacency array for an undirected graph: a row per vertex, one cell per neighbor.
-    // Vertices are 0..n-1; label(i) names them. vertex(u) / entry(u, v) return a CSS class
-    // (e.g. 'blue', 'picked', 'new') or ''. Returns an element to put in the data panel.
+    // One adjacency list for an undirected graph: a row "u → v w ..." per vertex, one chip per
+    // neighbor. Vertices are 0..n-1; label(i) names them. vertex(u) / entry(u, v) return a CSS class
+    // (e.g. 'blue', 'picked', 'new', 'covered') or ''. title is optional. Rows flow into columns
+    // when there is room. Returns an element to put in the data panel.
     adjacency({ title, n, edges, label, vertex = () => '', entry = () => '' }) {
       const adj = Array.from({ length: n }, () => []);
       for (const [u, v] of edges) { adj[u].push(v); adj[v].push(u); }
       const node = (tag, cls, text) => Object.assign(document.createElement(tag), { className: cls, textContent: text ?? '' });
-      const fig = node('div', 'arr');
-      fig.append(node('h4', '', title));
+      const fig = node('div', 'arr'), rows = node('div', 'rows');
+      if (title) fig.append(node('h4', '', title));
       adj.forEach((nbrs, u) => {
         const row = node('div', 'row'), cells = node('span', 'cells');
         for (const v of nbrs.sort((a, b) => a - b)) cells.append(node('span', `cell ${entry(u, v)}`, label(v)));
-        if (!nbrs.length) cells.append(node('span', 'cell empty', '∅'));
-        row.append(node('span', `v ${vertex(u)}`, label(u)), cells);
-        fig.append(row);
+        if (!nbrs.length) cells.append(node('span', 'cell empty', 'none'));
+        row.append(node('span', `v ${vertex(u)}`, label(u)), node('span', 'to', '→'), cells);
+        rows.append(row);
       });
+      fig.append(rows);
       return fig;
     },
     start,

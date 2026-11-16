@@ -59,16 +59,28 @@ h3 { font-size: 13px; margin: 0 0 8px; color: var(--muted); font-weight: 600; te
 
 /* adjacency arrays */
 .adj { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px 24px; font: 14px/1.7 ui-monospace, monospace; }
+.arr { grid-column: 1 / -1; }
 .arr h4 { margin: 0 0 6px; font: 700 15px ui-monospace, monospace; }
-.arr .row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
-.arr .v { min-width: 2.2ch; text-align: center; font-weight: 700; padding: 0 5px; border-radius: 4px; }
-.arr .v.blue { background: var(--blue); color: var(--on-fill); }
-.arr .v.orange { background: var(--orange); color: var(--on-fill); }
-.arr .cells { display: flex; flex-wrap: wrap; }
-.arr .cell { min-width: 2.6ch; padding: 0 6px; text-align: center; border: 1px solid var(--line); margin-left: -1px; }
-.arr .cell.empty { color: var(--muted); }
-.arr .cell.picked { color: var(--red); font-weight: 700; border-color: var(--red); position: relative; z-index: 1; }
-.arr .cell.new { background: color-mix(in srgb, var(--blue) 22%, transparent); border-color: var(--blue); font-weight: 700; position: relative; z-index: 1; }
+.arr .rows { columns: 2 260px; column-gap: 32px; }
+.arr .row { display: flex; align-items: flex-start; gap: 6px; padding: 4px 0; break-inside: avoid; border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent); }
+.arr .v { flex: none; width: 1.9em; line-height: 24px; text-align: center; font-weight: 700; border: 1.5px solid var(--ink); border-radius: 999px; }
+.arr .v.blue { background: var(--blue); border-color: var(--blue); color: var(--on-fill); }
+.arr .v.orange { background: var(--orange); border-color: var(--orange); color: var(--on-fill); }
+.arr .to { flex: none; line-height: 27px; color: var(--muted); }
+.arr .cells { display: flex; flex-wrap: wrap; gap: 4px; padding-top: 1px; }
+.adj .cell { display: inline-block; min-width: 2.2em; line-height: 22px; padding: 0 6px; text-align: center; border: 1.5px solid var(--ink); border-radius: 6px; }
+.adj .cell.covered { color: var(--muted); border: 1.5px dashed color-mix(in srgb, var(--muted) 65%, transparent); }
+.adj .cell.empty { color: var(--muted); border-color: transparent; font-style: italic; }
+.adj .cell.picked { color: var(--red); font-weight: 700; border: 2.5px solid var(--red); line-height: 20px; }
+.adj .cell.new { background: color-mix(in srgb, var(--blue) 20%, transparent); border-color: var(--blue); border-style: solid; color: var(--ink); font-weight: 700; }
+/* adjacency header (progress) and key */
+.adj-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; font: 600 14px system-ui, sans-serif; }
+.adj-head .meter { flex: 1; max-width: 240px; height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--line) 70%, transparent); overflow: hidden; }
+.adj-head .meter i { display: block; height: 100%; background: var(--blue); transition: width .2s; }
+.adj .key { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+.adj .key .cell { min-width: 1.6em; line-height: 18px; font: 12px/18px ui-monospace, monospace; }
+.adj .key .cell.picked { line-height: 16px; }
+.adj .key .hint { flex-basis: 100%; }
 /* pair grids (insertion sort) */
 .adj .arr { min-width: 0; }
 .tri { display: grid; gap: 1px; font: 12px/19px ui-monospace, monospace; overflow-x: auto; }
@@ -165,8 +177,6 @@ button.primary { box-shadow: 0 1px 2px rgba(16, 24, 40, .2); }
 #code { border-radius: 8px; }
 #code li { padding: 1px 8px; }
 #code li.on { border-left-width: 3px; }
-.arr .cell { border-radius: 3px; }
-.arr .v { border-radius: 5px; }
 
 /* desktop: segmented controls as a single recessed track instead of loose outlined buttons */
 @media (min-width: 761px) {

@@ -149,38 +149,53 @@
         }, svg, label(i));
       }
 
-      // legend
+      // legend: only the colors of nodes in C (rings and dashed edges are explained in the step text)
       const items = [
-        ['in C and C*', 'dot', 'var(--blue)'],
-        ['in C, not C*', 'dot', 'var(--orange)'],
-        ...(showStar ? [['in C* (smallest cover)', 'ring', 'var(--blue)']] : []),
-        ['covered edge', 'dash', 'var(--gray)'],
+        ['Nodes in C:', 'head'],
+        ['also in C*', 'var(--blue)'],
+        ['not in C*', 'var(--orange)'],
       ];
       let x = 24, y = 412 + 12 * k;                               // legend wraps onto more rows when scaled up
-      for (const [text, kind, color] of items) {
-        const wid = (28 + text.length * 7.2 + 16) * k;
-        if (x > 24 && x + wid - 16 * k > W - 12) { x = 24; y += 26 * k; }
-        if (kind === 'dash') el('line', { x1: x, y1: y, x2: x + 22 * k, y2: y, stroke: color, 'stroke-width': 2 * k, 'stroke-dasharray': `${4 * k} ${3 * k}` }, svg);
-        else el('circle', kind === 'dot'
-          ? { cx: x + 8 * k, cy: y, r: 7 * k, fill: color }
-          : { cx: x + 8 * k, cy: y, r: 6 * k, fill: 'none', stroke: color, 'stroke-width': 3 * k }, svg);
-        el('text', { x: x + 28 * k, y, 'dominant-baseline': 'central', 'font-size': 13 * k }, svg, text);
+      for (const [text, color] of items) {
+        const head = color === 'head';
+        const pad = head ? 0 : 24;
+        const wid = (pad + text.length * (head ? 7.6 : 7.2) + 18) * k;
+        if (x > 24 && x + wid - 18 * k > W - 12) { x = 24; y += 26 * k; }
+        if (!head) el('circle', { cx: x + 8 * k, cy: y, r: 7 * k, fill: color }, svg);
+        el('text', { x: x + pad * k, y, 'dominant-baseline': 'central', 'font-size': 13 * k, ...(head ? { 'font-weight': 700 } : {}) }, svg, text);
         x += wid;
       }
       svg.setAttribute('viewBox', `0 0 ${W} ${Math.max(H, y + 22 * k)}`);
     }
 
-    // Two adjacency lists. All edges: the whole graph, picked edge boxed in red.
-    // Covered edges: only the edges C covers so far; the ones the latest pick just covered are highlighted.
+    // One adjacency list; each neighbor chip shows its edge's state, matching the drawing:
+    // uncovered (solid), covered (dashed, faded), just covered by the latest pick (blue), picked (red).
     function data(box, idx) {
       const { C, prev, picked } = steps[idx].view;
       const isPicked = (u, v) => picked && ((picked[0] === u && picked[1] === v) || (picked[0] === v && picked[1] === u));
       const vertex = i => C.has(i) ? (star.has(i) ? 'blue' : 'orange') : '';
-      const covered = edges.filter(e => covers(C, e));
-      box.replaceChildren(
-        VIZ.adjacency({ title: 'All edges', n, edges, label, vertex, entry: (u, v) => isPicked(u, v) ? 'picked' : '' }),
-        VIZ.adjacency({ title: `Covered edges (${covered.length} of ${edges.length})`, n, edges: covered, label, vertex, entry: (u, v) => prev && !covers(prev, [u, v]) ? 'new' : '' }),
-      );
+      const entry = (u, v) => isPicked(u, v) ? 'picked'
+        : !covers(C, [u, v]) ? ''
+        : prev && !covers(prev, [u, v]) ? 'new' : 'covered';
+      const covered = edges.filter(e => covers(C, e)).length;
+
+      const node = (tag, cls, text) => Object.assign(document.createElement(tag), { className: cls, textContent: text ?? '' });
+      const head = node('div', 'adj-head');
+      const meter = node('span', 'meter'), fill = node('i', '');
+      fill.style.width = `${100 * covered / edges.length}%`;
+      meter.append(fill);
+      head.append(node('strong', '', `${covered} of ${edges.length} edges covered`), meter);
+
+      const key = node('p', 'note key');
+      const sample = [['', 'uncovered'], ['covered', 'covered'], ...(prev ? [['new', 'just covered']] : []), ...(picked ? [['picked', 'picked']] : [])];
+      for (const [cls, text] of sample) {
+        const item = node('span', '');
+        item.append(node('span', `cell ${cls}`, 'x'), ` ${text}`);
+        key.append(item);
+      }
+      key.append(node('span', 'hint', 'Each edge appears twice, once under each endpoint.'));
+
+      box.replaceChildren(head, VIZ.adjacency({ n, edges, label, vertex, entry }), key);
     }
 
     // One-line state for the collapsed data card.
@@ -200,7 +215,7 @@
     tagline: 'Randomized 2-approximation',
     viewBox: [W, H],
     code: CODE,
-    dataTitle: 'Adjacency lists',
+    dataTitle: 'Adjacency list',
     newLabel: 'New graph',
     params: [
       { key: 'size', label: 'Size', type: 'select', value: 'medium', options: [['small', 'Small'], ['medium', 'Medium'], ['large', 'Large']] },
