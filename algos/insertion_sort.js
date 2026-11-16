@@ -185,11 +185,11 @@
       const fs = bw >= 34 ? 18 : bw >= 26 ? 15 : 13;
       const kGap = 16, y0 = 62 + ch + kGap, keyY = y0 - ch - kGap;
       const cx = p => x0 + cw * (p + .5);
-      const box = (x, y, value, { fill = 'var(--node)', stroke = 'var(--ink)', sw = 1.5, dash, faded, light } = {}) => {
+      const box = (x, y, value, { fill = 'var(--node)', stroke = 'var(--ink)', sw = 1.5, dash, faded, text = 'var(--ink)' } = {}) => {
         el('rect', { x: x - bw / 2, y, width: bw, height: ch, rx: 6, fill, stroke, 'stroke-width': sw, ...(dash ? { 'stroke-dasharray': '4 3' } : {}) }, svg);
         el('text', {
           x, y: y + ch / 2, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': fs, 'font-weight': 700,
-          style: `fill:${light ? 'var(--on-fill)' : 'var(--ink)'}`, ...(faded ? { opacity: .35 } : {}),
+          style: `fill:${text}`, ...(faded ? { opacity: .35 } : {}),
         }, svg, value);
       };
 
@@ -224,7 +224,7 @@
         if (p === v.landed) el('rect', { x: x - bw / 2 - 4, y: y0 - 4, width: bw + 8, height: ch + 8, rx: 9, fill: 'none', stroke: 'var(--blue)', 'stroke-width': 4, opacity: .5 }, svg);
         box(x, y0, v.a[p], {
           fill: moved ? 'var(--orange)' : settled ? 'var(--blue)' : 'var(--node)',
-          stroke: end ? 'var(--orange)' : 'var(--ink)', sw: end ? 4 : 1.5, light: moved || settled,
+          stroke: end ? 'var(--orange)' : 'var(--ink)', sw: end ? 4 : 1.5, text: moved ? 'var(--on-orange)' : settled ? 'var(--on-blue)' : 'var(--ink)',
         });
       }
       // the key, held aside above its free slot
